@@ -3,13 +3,26 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertDealSchema } from "@shared/schema";
 import { fromZodError } from "zod-validation-error";
+import { setupAuth, isAuthenticated } from "./replitAuth";
 
 export async function registerRoutes(app: Express): Promise<Server> {
-  // put application routes here
-  // prefix all routes with /api
+  // Setup authentication first
+  await setupAuth(app);
 
-  // Deal routes
-  app.get("/api/deals", async (_req, res) => {
+  // Auth routes
+  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      res.json(user);
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Deal routes (protected)
+  app.get("/api/deals", isAuthenticated, async (_req, res) => {
     try {
       const deals = await storage.getDeals();
       res.json(deals);
@@ -19,7 +32,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get("/api/deals/:id", async (req, res) => {
+  app.get("/api/deals/:id", isAuthenticated, async (req, res) => {
     try {
       const deal = await storage.getDeal(req.params.id);
       if (!deal) {
@@ -32,7 +45,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post("/api/deals", async (req, res) => {
+  app.post("/api/deals", isAuthenticated, async (req, res) => {
     try {
       const parsed = insertDealSchema.safeParse(req.body);
       if (!parsed.success) {
@@ -48,7 +61,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.patch("/api/deals/:id", async (req, res) => {
+  app.patch("/api/deals/:id", isAuthenticated, async (req, res) => {
     try {
       const parsed = insertDealSchema.partial().safeParse(req.body);
       if (!parsed.success) {
@@ -64,7 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete("/api/deals/:id", async (req, res) => {
+  app.delete("/api/deals/:id", isAuthenticated, async (req, res) => {
     try {
       const success = await storage.deleteDeal(req.params.id);
       if (!success) {

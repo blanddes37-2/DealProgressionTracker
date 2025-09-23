@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Deal, type InsertDeal, deals, users } from "@shared/schema";
+import { type User, type UpsertUser, type Deal, type InsertDeal, deals, users } from "@shared/schema";
 import { db } from "./db";
 import { eq, sql } from "drizzle-orm";
 
@@ -6,10 +6,9 @@ import { eq, sql } from "drizzle-orm";
 // you might need
 
 export interface IStorage {
-  // User methods
+  // User methods (required for Replit Auth)
   getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  upsertUser(user: UpsertUser): Promise<User>;
   
   // Deal methods
   getDeals(): Promise<Deal[]>;
@@ -20,21 +19,23 @@ export interface IStorage {
 }
 
 export class DatabaseStorage implements IStorage {
-  // User methods
+  // User methods (required for Replit Auth)
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user || undefined;
   }
 
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.username, username));
-    return user || undefined;
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
+  async upsertUser(userData: UpsertUser): Promise<User> {
     const [user] = await db
       .insert(users)
-      .values(insertUser)
+      .values(userData)
+      .onConflictDoUpdate({
+        target: users.id,
+        set: {
+          ...userData,
+          updatedAt: new Date(),
+        },
+      })
       .returning();
     return user;
   }
