@@ -1,7 +1,7 @@
 import { DealWithHistory } from '@/types/deal';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import ProgressBar from './ProgressBar';
+import CompactProgressBar from './CompactProgressBar';
 import WeeklyProgression from './WeeklyProgression';
 import { MapPin, User, Building2, FileText } from 'lucide-react';
 
@@ -42,7 +42,7 @@ export default function DealCard({ deal, onClick }: DealCardProps) {
       <CardContent className="space-y-4">
         {/* Progress Bar */}
         <div>
-          <ProgressBar currentStage={deal.status} />
+          <CompactProgressBar currentStage={deal.status} />
         </div>
 
         {/* Deal Details */}
