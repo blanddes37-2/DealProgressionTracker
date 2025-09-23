@@ -5,7 +5,6 @@ import { loadDealsFromDatabase } from '@/services/dealService';
 import DealDashboard from './DealDashboard';
 import AddDealModal from './AddDealModal';
 import EditDealModal from './EditDealModal';
-import UserProfile from './UserProfile';
 
 export default function Dashboard() {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
@@ -51,14 +50,6 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header with User Profile */}
-      <div className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <h1 className="text-xl font-semibold">Commercial Deal Tracking</h1>
-          <UserProfile />
-        </div>
-      </div>
-      
       <div className="container mx-auto p-6">
         <DealDashboard 
           deals={deals}

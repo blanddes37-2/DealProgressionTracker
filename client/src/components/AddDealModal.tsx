@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogOverlay } from '@/components/ui/dialog';
 import DealForm from './DealForm';
 import { useToast } from '@/hooks/use-toast';
 import { apiRequest } from '@/lib/queryClient';
@@ -40,13 +40,8 @@ export default function AddDealModal({ isOpen, onClose }: AddDealModalProps) {
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
+      <DialogOverlay />
       <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto p-0">
-        <DialogHeader className="sr-only">
-          <DialogTitle>Add New Deal</DialogTitle>
-          <DialogDescription>
-            Create a new commercial real estate deal with all required details.
-          </DialogDescription>
-        </DialogHeader>
         <DealForm
           title="Add New Deal"
           submitLabel="Add Deal"
