@@ -358,25 +358,6 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
               />
             </div>
 
-            {/* Notes */}
-            <FormField
-              control={form.control}
-              name="notes"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Notes</FormLabel>
-                  <FormControl>
-                    <Textarea 
-                      placeholder="Additional notes about this deal..." 
-                      className="min-h-[100px]"
-                      {...field} 
-                      data-testid="textarea-notes"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
 
             {/* Form Actions */}
             <div className="flex items-center justify-end space-x-4 pt-4">
