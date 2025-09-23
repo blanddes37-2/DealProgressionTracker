@@ -5,7 +5,8 @@ import DealCard from './DealCard';
 import DealTableRow from './DealTableRow';
 import { Button } from '@/components/ui/button';
 import { Table, TableHeader, TableHead, TableBody } from '@/components/ui/table';
-import { Grid, List, Plus } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Grid, List, Plus, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 
 interface DealDashboardProps {
   deals: DealWithHistory[];
@@ -25,9 +26,11 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
   });
   
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
+  const [sortBy, setSortBy] = useState<'address' | 'status' | 'broker' | 'brand' | 'dealType' | 'rsf' | 'owner'>('address');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
   const filteredDeals = useMemo(() => {
-    return deals.filter(deal => {
+    const filtered = deals.filter(deal => {
       // Search filter
       if (filters.search) {
         const searchTerm = filters.search.toLowerCase();
@@ -73,7 +76,56 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
 
       return true;
     });
-  }, [deals, filters]);
+
+    // Apply sorting
+    const sorted = [...filtered].sort((a, b) => {
+      let aValue: string | number;
+      let bValue: string | number;
+
+      switch (sortBy) {
+        case 'address':
+          aValue = a.address.toLowerCase();
+          bValue = b.address.toLowerCase();
+          break;
+        case 'status':
+          // Sort by stage progression order
+          const stageOrder = ['Prospecting', 'Active Discussions', 'Site Approved', 'LOI', 'IC Approved', 'In Legal', 'Executed', 'On Hold', 'Dead', 'Withdrawn'];
+          aValue = stageOrder.indexOf(a.status);
+          bValue = stageOrder.indexOf(b.status);
+          break;
+        case 'broker':
+          aValue = a.broker.toLowerCase();
+          bValue = b.broker.toLowerCase();
+          break;
+        case 'brand':
+          aValue = a.brand.toLowerCase();
+          bValue = b.brand.toLowerCase();
+          break;
+        case 'dealType':
+          aValue = a.dealType.toLowerCase();
+          bValue = b.dealType.toLowerCase();
+          break;
+        case 'rsf':
+          // Parse RSF as numbers, removing commas
+          aValue = parseInt(a.rsf.replace(/[^0-9]/g, '')) || 0;
+          bValue = parseInt(b.rsf.replace(/[^0-9]/g, '')) || 0;
+          break;
+        case 'owner':
+          aValue = a.owner.toLowerCase();
+          bValue = b.owner.toLowerCase();
+          break;
+        default:
+          aValue = a.address.toLowerCase();
+          bValue = b.address.toLowerCase();
+      }
+
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+    return sorted;
+  }, [deals, filters, sortBy, sortDirection]);
 
   const handleAddDeal = () => {
     console.log('Add deal clicked');
@@ -99,6 +151,36 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
         </div>
         
         <div className="flex items-center space-x-3">
+          {/* Sort Controls */}
+          <div className="flex items-center space-x-2">
+            <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
+              <SelectTrigger className="w-[140px]" data-testid="select-sort-by">
+                <SelectValue placeholder="Sort by" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="address">Address</SelectItem>
+                <SelectItem value="status">Status</SelectItem>
+                <SelectItem value="broker">Broker</SelectItem>
+                <SelectItem value="brand">Brand</SelectItem>
+                <SelectItem value="dealType">Deal Type</SelectItem>
+                <SelectItem value="rsf">RSF</SelectItem>
+                <SelectItem value="owner">Owner</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')}
+              data-testid="button-sort-direction"
+            >
+              {sortDirection === 'asc' ? (
+                <ArrowUp className="h-4 w-4" />
+              ) : (
+                <ArrowDown className="h-4 w-4" />
+              )}
+            </Button>
+          </div>
+
           {/* View Mode Toggle */}
           <div className="flex items-center border border-border rounded-lg">
             <Button
