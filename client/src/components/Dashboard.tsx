@@ -1,13 +1,19 @@
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { DealWithHistory } from '@/types/deal';
-import { loadDealsFromCSV } from '@/services/dealService';
+import { loadDealsFromDatabase } from '@/services/dealService';
 import DealDashboard from './DealDashboard';
+import AddDealModal from './AddDealModal';
+import EditDealModal from './EditDealModal';
 
 export default function Dashboard() {
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [editingDeal, setEditingDeal] = useState<DealWithHistory | null>(null);
+
   const { data: deals = [], isLoading, error } = useQuery({
-    queryKey: ['deals'],
-    queryFn: loadDealsFromCSV,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    queryKey: ['/api/deals'],
+    queryFn: loadDealsFromDatabase,
+    staleTime: 1 * 60 * 1000, // 1 minute (shorter for database data)
   });
 
   if (isLoading) {
@@ -35,11 +41,11 @@ export default function Dashboard() {
   }
 
   const handleAddDeal = () => {
-    console.log('Add deal functionality would open a modal or navigate to a form');
+    setIsAddModalOpen(true);
   };
 
   const handleDealClick = (deal: DealWithHistory) => {
-    console.log('Deal detail view would open for:', deal.address);
+    setEditingDeal(deal);
   };
 
   return (
@@ -50,6 +56,21 @@ export default function Dashboard() {
           onAddDeal={handleAddDeal}
           onDealClick={handleDealClick}
         />
+        
+        {/* Add Deal Modal */}
+        <AddDealModal 
+          isOpen={isAddModalOpen}
+          onClose={() => setIsAddModalOpen(false)}
+        />
+        
+        {/* Edit Deal Modal */}
+        {editingDeal && (
+          <EditDealModal 
+            isOpen={!!editingDeal}
+            onClose={() => setEditingDeal(null)}
+            deal={editingDeal}
+          />
+        )}
       </div>
     </div>
   );
