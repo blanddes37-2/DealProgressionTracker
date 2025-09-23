@@ -22,10 +22,18 @@ export const deals = pgTable("deals", {
   brand: text("brand").notNull(), // DealBrand enum
   ncoExisting: text("nco_existing").notNull(), // 'NCO' | 'Existing' | 'Takeover'
   dealType: text("deal_type").notNull(), // DealType enum
-  notes: text("notes").notNull().default(""),
+  notes: text("notes").notNull().default(""), // Keeping temporarily for migration
   rsf: text("rsf").notNull().default(""),
   owner: text("owner").notNull(),
   weeklyHistory: jsonb("weekly_history").notNull().default([]), // WeeklyHistory[]
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const comments = pgTable("comments", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  dealId: varchar("deal_id").notNull().references(() => deals.id, { onDelete: "cascade" }),
+  content: text("content").notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
@@ -41,7 +49,15 @@ export const insertDealSchema = createInsertSchema(deals).omit({
   updatedAt: true,
 });
 
+export const insertCommentSchema = createInsertSchema(comments).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 export type InsertDeal = z.infer<typeof insertDealSchema>;
 export type Deal = typeof deals.$inferSelect;
+export type InsertComment = z.infer<typeof insertCommentSchema>;
+export type Comment = typeof comments.$inferSelect;
