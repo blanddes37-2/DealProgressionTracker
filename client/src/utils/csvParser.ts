@@ -116,30 +116,28 @@ export function parseCSV(csvText: string): DealWithHistory[] {
       row[header] = values[index] || '';
     });
     
-    const csvRow = row as CSVRow;
-    
     // Skip rows with no address
-    if (!csvRow.Address) continue;
+    if (!row.Address) continue;
     
-    // Map to our deal format
-    const status = statusMapping[csvRow.Status] || 'Prospecting';
+    // Map to our deal format - use normalized header access
+    const status = statusMapping[row.Status] || 'Prospecting';
     
     const deal: DealWithHistory = {
       id: `deal-${i}`,
-      address: csvRow.Address,
-      city: csvRow.City,
-      state: csvRow.State,
-      country: csvRow.Country,
-      broker: csvRow.BDD || csvRow.Broker, // Use BDD (person) as broker, fallback to Broker (firm)
-      bdd: csvRow.BDD,
-      dealNumber: parseInt(csvRow['Deal ']) || 1,
+      address: row.Address,
+      city: row.City,
+      state: row.State,
+      country: row.Country,
+      broker: row.BDD || row.Broker, // Use BDD (person) as broker, fallback to Broker (firm)
+      bdd: row.BDD,
+      dealNumber: parseInt(row.Deal) || 1, // Use trimmed header "Deal" instead of "Deal "
       status: status,
-      brand: mapBrand(csvRow.Brand),
-      ncoExisting: mapNCOExisting(csvRow['NCO / Existing']),
-      dealType: mapDealType(csvRow['Deal type']),
-      notes: csvRow.Notes,
-      rsf: csvRow['RSF '].replace(/"/g, ''), // Remove quotes from RSF
-      owner: csvRow.Owner,
+      brand: mapBrand(row.Brand),
+      ncoExisting: mapNCOExisting(row['NCO / Existing']),
+      dealType: mapDealType(row['Deal type']),
+      notes: row.Notes,
+      rsf: (row.RSF || '').replace(/"/g, ''), // Use trimmed header "RSF" and handle undefined
+      owner: row.Owner,
       weeklyHistory: generateWeeklyHistory(status)
     };
     
