@@ -2,7 +2,9 @@ import { useState, useMemo } from 'react';
 import { DealWithHistory } from '@/types/deal';
 import DealFilters, { FilterState } from './DealFilters';
 import DealCard from './DealCard';
+import DealTableRow from './DealTableRow';
 import { Button } from '@/components/ui/button';
+import { Table, TableHeader, TableHead, TableBody } from '@/components/ui/table';
 import { Grid, List, Plus } from 'lucide-react';
 
 interface DealDashboardProps {
@@ -22,7 +24,7 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
     state: undefined,
   });
   
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('list');
 
   const filteredDeals = useMemo(() => {
     return deals.filter(deal => {
@@ -100,22 +102,22 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
           {/* View Mode Toggle */}
           <div className="flex items-center border border-border rounded-lg">
             <Button
-              variant={viewMode === 'grid' ? 'default' : 'ghost'}
-              size="sm"
-              onClick={() => setViewMode('grid')}
-              className="rounded-r-none"
-              data-testid="button-view-grid"
-            >
-              <Grid className="h-4 w-4" />
-            </Button>
-            <Button
               variant={viewMode === 'list' ? 'default' : 'ghost'}
               size="sm"
               onClick={() => setViewMode('list')}
-              className="rounded-l-none"
+              className="rounded-r-none"
               data-testid="button-view-list"
             >
               <List className="h-4 w-4" />
+            </Button>
+            <Button
+              variant={viewMode === 'grid' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setViewMode('grid')}
+              className="rounded-l-none"
+              data-testid="button-view-grid"
+            >
+              <Grid className="h-4 w-4" />
             </Button>
           </div>
 
@@ -135,23 +137,49 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
         filteredDeals={filteredDeals.length}
       />
 
-      {/* Deals Grid */}
+      {/* Deals Display */}
       {filteredDeals.length > 0 ? (
-        <div 
-          className={
-            viewMode === 'grid' 
-              ? 'grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6' 
-              : 'space-y-4'
-          }
-        >
-          {filteredDeals.map((deal) => (
-            <DealCard
-              key={deal.id}
-              deal={deal}
-              onClick={() => handleDealClick(deal)}
-            />
-          ))}
-        </div>
+        viewMode === 'list' ? (
+          <div className="border border-border rounded-lg overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <tr>
+                  <TableHead className="min-w-[200px]">Address</TableHead>
+                  <TableHead className="min-w-[140px]">Status</TableHead>
+                  <TableHead>Broker</TableHead>
+                  <TableHead>Brand</TableHead>
+                  <TableHead>Deal Type</TableHead>
+                  <TableHead className="text-right">RSF</TableHead>
+                  <TableHead className="min-w-[200px]">Owner</TableHead>
+                  <TableHead className="text-center min-w-[60px]">This Week</TableHead>
+                  <TableHead className="text-center min-w-[60px]">Week -1</TableHead>
+                  <TableHead className="text-center min-w-[60px]">Week -2</TableHead>
+                  <TableHead className="text-center min-w-[60px]">Week -3</TableHead>
+                  <TableHead className="min-w-[250px]">Notes</TableHead>
+                </tr>
+              </TableHeader>
+              <TableBody>
+                {filteredDeals.map((deal) => (
+                  <DealTableRow
+                    key={deal.id}
+                    deal={deal}
+                    onClick={() => handleDealClick(deal)}
+                  />
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
+            {filteredDeals.map((deal) => (
+              <DealCard
+                key={deal.id}
+                deal={deal}
+                onClick={() => handleDealClick(deal)}
+              />
+            ))}
+          </div>
+        )
       ) : (
         <div className="text-center py-12">
           <div className="text-muted-foreground">

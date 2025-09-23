@@ -7,6 +7,17 @@ interface WeeklyProgressionProps {
 }
 
 export default function WeeklyProgression({ weeklyHistory, className = '' }: WeeklyProgressionProps) {
+  // Generate week labels with specific dates
+  const generateWeekLabel = (weeksAgo: number) => {
+    const today = new Date();
+    const weekStart = new Date(today);
+    weekStart.setDate(today.getDate() - (today.getDay() + weeksAgo * 7));
+    const month = weekStart.getMonth() + 1;
+    const day = weekStart.getDate();
+    const year = weekStart.getFullYear().toString().slice(-2);
+    return `week of ${month}/${day}/${year}`;
+  };
+  
   // Ensure we have exactly 4 weeks, fill with empty if needed
   const weeks = [...weeklyHistory];
   while (weeks.length < 4) {
@@ -19,12 +30,12 @@ export default function WeeklyProgression({ weeklyHistory, className = '' }: Wee
       <h4 className="text-xs font-medium text-muted-foreground">4-Week History</h4>
       <div className="grid grid-cols-4 gap-2">
         {weeks.map((weekData, index) => {
-          const weekLabel = index === 0 ? 'Current' : `Week -${index}`;
+          const weekLabel = generateWeekLabel(index);
           const isEmpty = !weekData.week;
           
           return (
             <div key={index} className="flex flex-col items-center space-y-1">
-              <span className="text-xs text-muted-foreground font-medium">
+              <span className="text-xs text-muted-foreground font-medium text-center leading-tight">
                 {weekLabel}
               </span>
               {!isEmpty ? (

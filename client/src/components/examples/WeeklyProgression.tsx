@@ -2,17 +2,17 @@ import WeeklyProgression from '../WeeklyProgression';
 
 export default function WeeklyProgressionExample() {
   const sampleHistory = [
-    { week: 'Sept 23', stage: 'LOI' as const },
-    { week: 'Sept 16', stage: 'Site Approved' as const },
-    { week: 'Sept 9', stage: 'Active Discussions' as const },
-    { week: 'Sept 2', stage: 'Prospecting' as const },
+    { week: '9/22/25', stage: 'LOI' as const },
+    { week: '9/15/25', stage: 'Site Approved' as const },
+    { week: '9/8/25', stage: 'Active Discussions' as const },
+    { week: '9/1/25', stage: 'Prospecting' as const },
   ];
 
   const executedHistory = [
-    { week: 'Sept 23', stage: 'Executed' as const },
-    { week: 'Sept 16', stage: 'In Legal' as const },
-    { week: 'Sept 9', stage: 'IC Approved' as const },
-    { week: 'Sept 2', stage: 'LOI' as const },
+    { week: '9/22/25', stage: 'Executed' as const },
+    { week: '9/15/25', stage: 'In Legal' as const },
+    { week: '9/8/25', stage: 'IC Approved' as const },
+    { week: '9/1/25', stage: 'LOI' as const },
   ];
 
   return (
