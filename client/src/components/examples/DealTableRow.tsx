@@ -37,7 +37,7 @@ export default function DealTableRowExample() {
           <TableHeader>
             <tr>
               <TableHead className="min-w-[200px]">Address</TableHead>
-              <TableHead className="min-w-[140px]">Status</TableHead>
+              <TableHead className="min-w-[600px]">Status</TableHead>
               <TableHead>Broker</TableHead>
               <TableHead>Brand</TableHead>
               <TableHead>Deal Type</TableHead>

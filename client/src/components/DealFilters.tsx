@@ -116,7 +116,6 @@ export default function DealFilters({
                 <SelectValue placeholder="All stages" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All stages</SelectItem>
                 {DEAL_STAGES.map((stage) => (
                   <SelectItem key={stage} value={stage}>
                     {stage}
@@ -136,7 +135,6 @@ export default function DealFilters({
                 <SelectValue placeholder="All brands" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All brands</SelectItem>
                 <SelectItem value="Regus">Regus</SelectItem>
                 <SelectItem value="Spaces">Spaces</SelectItem>
               </SelectContent>
@@ -153,7 +151,6 @@ export default function DealFilters({
                 <SelectValue placeholder="All types" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All types</SelectItem>
                 <SelectItem value="MCA">MCA</SelectItem>
                 <SelectItem value="REVENUE SHARE">Revenue Share</SelectItem>
                 <SelectItem value="PROFIT SHARE (SOP)">Profit Share (SOP)</SelectItem>

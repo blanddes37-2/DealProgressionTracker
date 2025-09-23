@@ -1,6 +1,7 @@
 import { DealWithHistory } from '@/types/deal';
 import { Badge } from '@/components/ui/badge';
 import DealStageIcon from './DealStageIcon';
+import ProgressBar from './ProgressBar';
 import { TableRow, TableCell } from '@/components/ui/table';
 
 interface DealTableRowProps {
@@ -39,12 +40,12 @@ export default function DealTableRow({ deal, onClick }: DealTableRowProps) {
         </div>
       </TableCell>
       
-      <TableCell className="min-w-[140px]">
-        <div className="flex items-center space-x-2">
-          <DealStageIcon stage={deal.status} className="h-4 w-4" />
-          <Badge variant="secondary" className="text-xs" data-testid={`badge-status-${deal.id}`}>
+      <TableCell className="min-w-[600px]">
+        <div className="flex flex-col space-y-2">
+          <Badge variant="secondary" className="text-xs w-fit" data-testid={`badge-status-${deal.id}`}>
             {deal.status}
           </Badge>
+          <ProgressBar currentStage={deal.status} className="scale-75 origin-left" />
         </div>
       </TableCell>
       
