@@ -1,4 +1,4 @@
-import { type User, type InsertUser, type Deal, type InsertDeal, deals, users } from "@shared/schema";
+import { type User, type InsertUser, type Deal, type InsertDeal, type Comment, type InsertComment, deals, users, comments } from "@shared/schema";
 import { db } from "./db";
 import { eq, sql } from "drizzle-orm";
 
@@ -17,6 +17,12 @@ export interface IStorage {
   createDeal(deal: InsertDeal): Promise<Deal>;
   updateDeal(id: string, deal: Partial<InsertDeal>): Promise<Deal>;
   deleteDeal(id: string): Promise<boolean>;
+  
+  // Comment methods
+  getComments(dealId: string): Promise<Comment[]>;
+  createComment(comment: InsertComment): Promise<Comment>;
+  updateComment(id: string, content: string): Promise<Comment>;
+  deleteComment(id: string): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -74,6 +80,39 @@ export class DatabaseStorage implements IStorage {
 
   async deleteDeal(id: string): Promise<boolean> {
     const result = await db.delete(deals).where(eq(deals.id, id));
+    return (result.rowCount ?? 0) > 0;
+  }
+
+  // Comment methods
+  async getComments(dealId: string): Promise<Comment[]> {
+    return await db.select().from(comments).where(eq(comments.dealId, dealId));
+  }
+
+  async createComment(insertComment: InsertComment): Promise<Comment> {
+    const [comment] = await db
+      .insert(comments)
+      .values({
+        ...insertComment,
+        updatedAt: sql`now()`,
+      })
+      .returning();
+    return comment;
+  }
+
+  async updateComment(id: string, content: string): Promise<Comment> {
+    const [comment] = await db
+      .update(comments)
+      .set({
+        content,
+        updatedAt: sql`now()`,
+      })
+      .where(eq(comments.id, id))
+      .returning();
+    return comment;
+  }
+
+  async deleteComment(id: string): Promise<boolean> {
+    const result = await db.delete(comments).where(eq(comments.id, id));
     return (result.rowCount ?? 0) > 0;
   }
 }
