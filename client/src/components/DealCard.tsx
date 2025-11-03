@@ -12,7 +12,6 @@ interface DealCardProps {
 
 export default function DealCard({ deal, onClick }: DealCardProps) {
   const handleClick = () => {
-    console.log('Deal card clicked:', deal.id);
     onClick?.();
   };
 

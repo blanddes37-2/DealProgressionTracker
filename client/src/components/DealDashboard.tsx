@@ -128,12 +128,10 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
   }, [deals, filters, sortBy, sortDirection]);
 
   const handleAddDeal = () => {
-    console.log('Add deal clicked');
     onAddDeal?.();
   };
 
   const handleDealClick = (deal: DealWithHistory) => {
-    console.log('Deal clicked:', deal.id);
     onDealClick?.(deal);
   };
 

@@ -32,7 +32,6 @@ export default function DealFilters({
   const [isExpanded, setIsExpanded] = useState(false);
 
   const updateFilter = (key: keyof FilterState, value: string | undefined) => {
-    console.log('Filter updated:', key, value);
     onFiltersChange({
       ...filters,
       [key]: value || undefined
@@ -40,7 +39,6 @@ export default function DealFilters({
   };
 
   const clearFilters = () => {
-    console.log('Filters cleared');
     onFiltersChange({
       search: '',
       stage: undefined,

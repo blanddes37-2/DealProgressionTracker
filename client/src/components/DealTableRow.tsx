@@ -11,7 +11,6 @@ interface DealTableRowProps {
 
 export default function DealTableRow({ deal, onClick }: DealTableRowProps) {
   const handleClick = () => {
-    console.log('Deal row clicked:', deal.id);
     onClick?.();
   };
 
