@@ -45,7 +45,7 @@ const ownerCompanies = [
   'Sterling Commercial Group', 'Fortress Real Estate Partners'
 ];
 
-const brands = ['FlexSpace', 'WorkHub', 'OfficeNow', 'DeskPro', 'CoWork Central'];
+const brands = ['Sike', 'Mytherous'];
 const dealTypes = ['Direct', 'Sublease', 'Coworking'];
 
 const commentTemplates = [

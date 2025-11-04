@@ -133,11 +133,8 @@ export default function DealFilters({
                 <SelectValue placeholder="All brands" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="FlexSpace">FlexSpace</SelectItem>
-                <SelectItem value="WorkHub">WorkHub</SelectItem>
-                <SelectItem value="OfficeNow">OfficeNow</SelectItem>
-                <SelectItem value="DeskPro">DeskPro</SelectItem>
-                <SelectItem value="CoWork Central">CoWork Central</SelectItem>
+                <SelectItem value="Sike">Sike</SelectItem>
+                <SelectItem value="Mytherous">Mytherous</SelectItem>
               </SelectContent>
             </Select>
           </div>

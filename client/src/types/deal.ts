@@ -12,7 +12,7 @@ export type DealStage =
 
 export type DealType = 'Direct' | 'Sublease' | 'Coworking';
 
-export type DealBrand = 'FlexSpace' | 'WorkHub' | 'OfficeNow' | 'DeskPro' | 'CoWork Central';
+export type DealBrand = 'Sike' | 'Mytherous';
 
 export interface Deal {
   id: string;

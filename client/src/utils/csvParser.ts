@@ -34,10 +34,10 @@ const statusMapping: Record<string, DealStage> = {
 // Helper functions to validate and convert CSV values to typed unions
 function mapBrand(csvBrand: string): DealBrand {
   const brand = csvBrand.trim();
-  if (brand === 'FlexSpace' || brand === 'WorkHub' || brand === 'OfficeNow' || brand === 'DeskPro' || brand === 'CoWork Central') {
+  if (brand === 'Sike' || brand === 'Mytherous') {
     return brand as DealBrand;
   }
-  return 'FlexSpace'; // Default fallback
+  return 'Sike'; // Default fallback
 }
 
 function mapNCOExisting(csvValue: string): 'NCO' | 'Existing' | 'Takeover' {

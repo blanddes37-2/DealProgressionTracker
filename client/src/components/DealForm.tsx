@@ -20,7 +20,7 @@ const dealFormSchema = z.object({
   bdd: z.string().min(1, "BDD is required"),
   dealNumber: z.number().min(1, "Deal number must be at least 1"),
   status: z.enum(DEAL_STAGES as [DealStage, ...DealStage[]]),
-  brand: z.enum(['FlexSpace', 'WorkHub', 'OfficeNow', 'DeskPro', 'CoWork Central']),
+  brand: z.enum(['Sike', 'Mytherous']),
   ncoExisting: z.enum(['NCO', 'Existing', 'Takeover']),
   dealType: z.enum(['Direct', 'Sublease', 'Coworking']),
   notes: z.string().default(""),
@@ -57,7 +57,7 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
       bdd: initialData?.bdd || '',
       dealNumber: initialData?.dealNumber || 1,
       status: initialData?.status || 'Prospecting',
-      brand: initialData?.brand || 'FlexSpace',
+      brand: initialData?.brand || 'Sike',
       ncoExisting: initialData?.ncoExisting || 'NCO',
       dealType: initialData?.dealType || 'Direct',
       notes: initialData?.notes || '',
@@ -303,11 +303,8 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="FlexSpace">FlexSpace</SelectItem>
-                        <SelectItem value="WorkHub">WorkHub</SelectItem>
-                        <SelectItem value="OfficeNow">OfficeNow</SelectItem>
-                        <SelectItem value="DeskPro">DeskPro</SelectItem>
-                        <SelectItem value="CoWork Central">CoWork Central</SelectItem>
+                        <SelectItem value="Sike">Sike</SelectItem>
+                        <SelectItem value="Mytherous">Mytherous</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
