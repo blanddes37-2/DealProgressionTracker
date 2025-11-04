@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { DealStage, DEAL_STAGES } from '@/types/deal';
+import { DealStage, DealType, DealBrand, DEAL_STAGES } from '@/types/deal';
 import { X } from 'lucide-react';
 
 const dealFormSchema = z.object({
@@ -20,7 +20,9 @@ const dealFormSchema = z.object({
   bdd: z.string().min(1, "BDD is required"),
   dealNumber: z.number().min(1, "Deal number must be at least 1"),
   status: z.enum(DEAL_STAGES as [DealStage, ...DealStage[]]),
+  brand: z.enum(['Regus', 'Spaces']),
   ncoExisting: z.enum(['NCO', 'Existing', 'Takeover']),
+  dealType: z.enum(['MCA', 'REVENUE SHARE', 'PROFIT SHARE (SOP)', 'CONVENTIONAL']),
   notes: z.string().default(""),
   rsf: z.string().default(""),
   owner: z.string().min(1, "Owner is required"),
@@ -55,7 +57,9 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
       bdd: initialData?.bdd || '',
       dealNumber: initialData?.dealNumber || 1,
       status: initialData?.status || 'Prospecting',
+      brand: initialData?.brand || 'Regus',
       ncoExisting: initialData?.ncoExisting || 'NCO',
+      dealType: initialData?.dealType || 'REVENUE SHARE',
       notes: initialData?.notes || '',
       rsf: initialData?.rsf || '',
       owner: initialData?.owner || '',
@@ -258,7 +262,7 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
             </div>
 
             {/* Deal Specifics */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <FormField
                 control={form.control}
                 name="status"
@@ -288,6 +292,27 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
               />
               <FormField
                 control={form.control}
+                name="brand"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Brand</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger data-testid="select-brand">
+                          <SelectValue placeholder="Select brand" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Regus">Regus</SelectItem>
+                        <SelectItem value="Spaces">Spaces</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
                 name="ncoExisting"
                 render={({ field }) => (
                   <FormItem>
@@ -302,6 +327,29 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
                         <SelectItem value="NCO">NCO</SelectItem>
                         <SelectItem value="Existing">Existing</SelectItem>
                         <SelectItem value="Takeover">Takeover</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="dealType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Deal Type</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger data-testid="select-deal-type">
+                          <SelectValue placeholder="Select deal type" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="MCA">MCA</SelectItem>
+                        <SelectItem value="REVENUE SHARE">REVENUE SHARE</SelectItem>
+                        <SelectItem value="PROFIT SHARE (SOP)">PROFIT SHARE (SOP)</SelectItem>
+                        <SelectItem value="CONVENTIONAL">CONVENTIONAL</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

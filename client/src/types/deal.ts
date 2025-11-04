@@ -10,6 +10,10 @@ export type DealStage =
   | 'Dead'
   | 'Withdrawn';
 
+export type DealType = 'MCA' | 'REVENUE SHARE' | 'PROFIT SHARE (SOP)' | 'CONVENTIONAL';
+
+export type DealBrand = 'Regus' | 'Spaces';
+
 export interface Deal {
   id: string;
   address: string;
@@ -20,7 +24,9 @@ export interface Deal {
   bdd: string;
   dealNumber: number;
   status: DealStage;
+  brand: DealBrand;
   ncoExisting: 'NCO' | 'Existing' | 'Takeover';
+  dealType: DealType;
   notes: string;
   rsf: string;
   owner: string;

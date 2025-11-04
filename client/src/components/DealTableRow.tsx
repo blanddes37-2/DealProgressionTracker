@@ -52,6 +52,14 @@ export default function DealTableRow({ deal, onClick }: DealTableRowProps) {
         {deal.broker}
       </TableCell>
       
+      <TableCell className="text-sm" data-testid={`text-brand-${deal.id}`}>
+        {deal.brand}
+      </TableCell>
+      
+      <TableCell className="text-sm" data-testid={`text-dealtype-${deal.id}`}>
+        {deal.dealType}
+      </TableCell>
+      
       <TableCell className="text-sm text-right" data-testid={`text-rsf-${deal.id}`}>
         {deal.rsf}
       </TableCell>

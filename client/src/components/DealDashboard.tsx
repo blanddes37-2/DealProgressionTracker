@@ -54,6 +54,16 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
         return false;
       }
 
+      // Brand filter
+      if (filters.brand && deal.brand !== filters.brand) {
+        return false;
+      }
+
+      // Deal type filter
+      if (filters.dealType && deal.dealType !== filters.dealType) {
+        return false;
+      }
+
       // City filter
       if (filters.city && !deal.city.toLowerCase().includes(filters.city.toLowerCase())) {
         return false;
@@ -86,6 +96,14 @@ export default function DealDashboard({ deals, onAddDeal, onDealClick }: DealDas
         case 'broker':
           aValue = a.broker.toLowerCase();
           bValue = b.broker.toLowerCase();
+          break;
+        case 'brand':
+          aValue = a.brand.toLowerCase();
+          bValue = b.brand.toLowerCase();
+          break;
+        case 'dealType':
+          aValue = a.dealType.toLowerCase();
+          bValue = b.dealType.toLowerCase();
           break;
         case 'rsf':
           // Parse RSF as numbers, removing commas

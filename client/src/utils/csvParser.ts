@@ -1,4 +1,4 @@
-import { DealWithHistory, DealStage } from '@/types/deal';
+import { DealWithHistory, DealStage, DealBrand, DealType } from '@/types/deal';
 
 interface CSVRow {
   Address: string;
@@ -9,7 +9,9 @@ interface CSVRow {
   BDD: string;
   'Deal ': string;
   Status: string;
+  Brand: string;
   'NCO / Existing': string;
+  'Deal type': string;
   Notes: string;
   'RSF ': string;
   Owner: string;
@@ -30,12 +32,28 @@ const statusMapping: Record<string, DealStage> = {
 };
 
 // Helper functions to validate and convert CSV values to typed unions
+function mapBrand(csvBrand: string): DealBrand {
+  const brand = csvBrand.trim();
+  if (brand === 'Regus' || brand === 'Spaces') {
+    return brand as DealBrand;
+  }
+  return 'Regus'; // Default fallback
+}
+
 function mapNCOExisting(csvValue: string): 'NCO' | 'Existing' | 'Takeover' {
   const value = csvValue.trim();
   if (value === 'NCO' || value === 'Existing' || value === 'Takeover') {
     return value;
   }
   return 'NCO'; // Default fallback
+}
+
+function mapDealType(csvDealType: string): DealType {
+  const dealType = csvDealType.trim();
+  if (dealType === 'MCA' || dealType === 'REVENUE SHARE' || dealType === 'PROFIT SHARE (SOP)' || dealType === 'CONVENTIONAL') {
+    return dealType as DealType;
+  }
+  return 'REVENUE SHARE'; // Default fallback
 }
 
 // Generate mock weekly history based on current status
@@ -114,7 +132,9 @@ export function parseCSV(csvText: string): DealWithHistory[] {
       bdd: row.BDD,
       dealNumber: parseInt(row.Deal) || 1, // Use trimmed header "Deal" instead of "Deal "
       status: status,
+      brand: mapBrand(row.Brand),
       ncoExisting: mapNCOExisting(row['NCO / Existing']),
+      dealType: mapDealType(row['Deal type']),
       notes: row.Notes,
       rsf: (row.RSF || '').replace(/"/g, ''), // Use trimmed header "RSF" and handle undefined
       owner: row.Owner,

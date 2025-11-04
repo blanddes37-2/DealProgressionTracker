@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import CompactProgressBar from './CompactProgressBar';
 import WeeklyProgression from './WeeklyProgression';
-import { MapPin, User, FileText } from 'lucide-react';
+import { MapPin, User, Building2, FileText } from 'lucide-react';
 
 interface DealCardProps {
   deal: DealWithHistory;
@@ -52,9 +52,18 @@ export default function DealCard({ deal, onClick }: DealCardProps) {
             <span className="font-medium text-foreground" data-testid={`text-broker-${deal.id}`}>{deal.broker}</span>
           </div>
           <div className="flex items-center space-x-1">
+            <Building2 className="h-3 w-3 text-muted-foreground" />
+            <span className="text-muted-foreground">Brand:</span>
+            <span className="font-medium text-foreground" data-testid={`text-brand-${deal.id}`}>{deal.brand}</span>
+          </div>
+          <div className="flex items-center space-x-1">
             <FileText className="h-3 w-3 text-muted-foreground" />
             <span className="text-muted-foreground">RSF:</span>
             <span className="font-medium text-foreground" data-testid={`text-rsf-${deal.id}`}>{deal.rsf}</span>
+          </div>
+          <div className="flex items-center space-x-1">
+            <span className="text-muted-foreground">Type:</span>
+            <span className="font-medium text-foreground" data-testid={`text-dealtype-${deal.id}`}>{deal.dealType}</span>
           </div>
         </div>
 
