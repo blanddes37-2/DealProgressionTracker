@@ -19,9 +19,7 @@ export const deals = pgTable("deals", {
   bdd: text("bdd").notNull(),
   dealNumber: integer("deal_number").notNull(),
   status: text("status").notNull(), // DealStage enum
-  brand: text("brand").notNull(), // DealBrand enum
   ncoExisting: text("nco_existing").notNull(), // 'NCO' | 'Existing' | 'Takeover'
-  dealType: text("deal_type").notNull(), // DealType enum
   notes: text("notes").notNull().default(""), // Keeping temporarily for migration
   rsf: text("rsf").notNull().default(""),
   owner: text("owner").notNull(),

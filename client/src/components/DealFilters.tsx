@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DealStage, DealBrand, DealType, DEAL_STAGES } from '@/types/deal';
+import { DealStage, DEAL_STAGES } from '@/types/deal';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
@@ -9,8 +9,6 @@ import { Badge } from '@/components/ui/badge';
 export interface FilterState {
   search: string;
   stage?: DealStage;
-  brand?: DealBrand;
-  dealType?: DealType;
   broker?: string;
   city?: string;
   state?: string;
@@ -42,8 +40,6 @@ export default function DealFilters({
     onFiltersChange({
       search: '',
       stage: undefined,
-      brand: undefined,
-      dealType: undefined,
       broker: undefined,
       city: undefined,
       state: undefined,
@@ -103,7 +99,7 @@ export default function DealFilters({
 
       {/* Expanded Filters */}
       {isExpanded && (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 p-4 bg-muted rounded-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4 bg-muted rounded-lg">
           <div className="space-y-2">
             <label className="text-xs font-medium text-muted-foreground">Stage</label>
             <Select 
@@ -119,40 +115,6 @@ export default function DealFilters({
                     {stage}
                   </SelectItem>
                 ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-muted-foreground">Brand</label>
-            <Select 
-              value={filters.brand || ''} 
-              onValueChange={(value) => updateFilter('brand', value)}
-            >
-              <SelectTrigger data-testid="select-brand">
-                <SelectValue placeholder="All brands" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="Regus">Regus</SelectItem>
-                <SelectItem value="Spaces">Spaces</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-muted-foreground">Deal Type</label>
-            <Select 
-              value={filters.dealType || ''} 
-              onValueChange={(value) => updateFilter('dealType', value)}
-            >
-              <SelectTrigger data-testid="select-dealtype">
-                <SelectValue placeholder="All types" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="MCA">MCA</SelectItem>
-                <SelectItem value="REVENUE SHARE">Revenue Share</SelectItem>
-                <SelectItem value="PROFIT SHARE (SOP)">Profit Share (SOP)</SelectItem>
-                <SelectItem value="CONVENTIONAL">Conventional</SelectItem>
               </SelectContent>
             </Select>
           </div>
