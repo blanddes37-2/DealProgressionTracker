@@ -20,9 +20,9 @@ const dealFormSchema = z.object({
   bdd: z.string().min(1, "BDD is required"),
   dealNumber: z.number().min(1, "Deal number must be at least 1"),
   status: z.enum(DEAL_STAGES as [DealStage, ...DealStage[]]),
-  brand: z.enum(['Regus', 'Spaces']),
+  brand: z.enum(['FlexSpace', 'WorkHub', 'OfficeNow', 'DeskPro', 'CoWork Central']),
   ncoExisting: z.enum(['NCO', 'Existing', 'Takeover']),
-  dealType: z.enum(['MCA', 'REVENUE SHARE', 'PROFIT SHARE (SOP)', 'CONVENTIONAL']),
+  dealType: z.enum(['Direct', 'Sublease', 'Coworking']),
   notes: z.string().default(""),
   rsf: z.string().default(""),
   owner: z.string().min(1, "Owner is required"),
@@ -57,9 +57,9 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
       bdd: initialData?.bdd || '',
       dealNumber: initialData?.dealNumber || 1,
       status: initialData?.status || 'Prospecting',
-      brand: initialData?.brand || 'Regus',
+      brand: initialData?.brand || 'FlexSpace',
       ncoExisting: initialData?.ncoExisting || 'NCO',
-      dealType: initialData?.dealType || 'REVENUE SHARE',
+      dealType: initialData?.dealType || 'Direct',
       notes: initialData?.notes || '',
       rsf: initialData?.rsf || '',
       owner: initialData?.owner || '',
@@ -303,8 +303,11 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="Regus">Regus</SelectItem>
-                        <SelectItem value="Spaces">Spaces</SelectItem>
+                        <SelectItem value="FlexSpace">FlexSpace</SelectItem>
+                        <SelectItem value="WorkHub">WorkHub</SelectItem>
+                        <SelectItem value="OfficeNow">OfficeNow</SelectItem>
+                        <SelectItem value="DeskPro">DeskPro</SelectItem>
+                        <SelectItem value="CoWork Central">CoWork Central</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -346,10 +349,9 @@ export default function DealForm({ initialData, onSubmit, onCancel, title, submi
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="MCA">MCA</SelectItem>
-                        <SelectItem value="REVENUE SHARE">REVENUE SHARE</SelectItem>
-                        <SelectItem value="PROFIT SHARE (SOP)">PROFIT SHARE (SOP)</SelectItem>
-                        <SelectItem value="CONVENTIONAL">CONVENTIONAL</SelectItem>
+                        <SelectItem value="Direct">Direct</SelectItem>
+                        <SelectItem value="Sublease">Sublease</SelectItem>
+                        <SelectItem value="Coworking">Coworking</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

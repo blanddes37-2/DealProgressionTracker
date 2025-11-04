@@ -133,8 +133,11 @@ export default function DealFilters({
                 <SelectValue placeholder="All brands" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="Regus">Regus</SelectItem>
-                <SelectItem value="Spaces">Spaces</SelectItem>
+                <SelectItem value="FlexSpace">FlexSpace</SelectItem>
+                <SelectItem value="WorkHub">WorkHub</SelectItem>
+                <SelectItem value="OfficeNow">OfficeNow</SelectItem>
+                <SelectItem value="DeskPro">DeskPro</SelectItem>
+                <SelectItem value="CoWork Central">CoWork Central</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -149,10 +152,9 @@ export default function DealFilters({
                 <SelectValue placeholder="All types" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="MCA">MCA</SelectItem>
-                <SelectItem value="REVENUE SHARE">Revenue Share</SelectItem>
-                <SelectItem value="PROFIT SHARE (SOP)">Profit Share (SOP)</SelectItem>
-                <SelectItem value="CONVENTIONAL">Conventional</SelectItem>
+                <SelectItem value="Direct">Direct</SelectItem>
+                <SelectItem value="Sublease">Sublease</SelectItem>
+                <SelectItem value="Coworking">Coworking</SelectItem>
               </SelectContent>
             </Select>
           </div>

@@ -45,8 +45,8 @@ const ownerCompanies = [
   'Sterling Commercial Group', 'Fortress Real Estate Partners'
 ];
 
-const brands = ['Regus', 'Spaces'];
-const dealTypes = ['MCA', 'REVENUE SHARE', 'PROFIT SHARE (SOP)', 'Conventional'];
+const brands = ['FlexSpace', 'WorkHub', 'OfficeNow', 'DeskPro', 'CoWork Central'];
+const dealTypes = ['Direct', 'Sublease', 'Coworking'];
 
 const commentTemplates = [
   "Initial contact made with broker, discussing potential terms.",

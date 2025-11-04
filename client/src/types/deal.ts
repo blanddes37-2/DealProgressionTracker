@@ -10,9 +10,9 @@ export type DealStage =
   | 'Dead'
   | 'Withdrawn';
 
-export type DealType = 'MCA' | 'REVENUE SHARE' | 'PROFIT SHARE (SOP)' | 'CONVENTIONAL';
+export type DealType = 'Direct' | 'Sublease' | 'Coworking';
 
-export type DealBrand = 'Regus' | 'Spaces';
+export type DealBrand = 'FlexSpace' | 'WorkHub' | 'OfficeNow' | 'DeskPro' | 'CoWork Central';
 
 export interface Deal {
   id: string;
