@@ -34,10 +34,10 @@ const statusMapping: Record<string, DealStage> = {
 // Helper functions to validate and convert CSV values to typed unions
 function mapBrand(csvBrand: string): DealBrand {
   const brand = csvBrand.trim();
-  if (brand === 'Regus' || brand === 'Spaces') {
+  if (brand === 'FlexSpace' || brand === 'WorkHub' || brand === 'OfficeNow' || brand === 'DeskPro' || brand === 'CoWork Central') {
     return brand as DealBrand;
   }
-  return 'Regus'; // Default fallback
+  return 'FlexSpace'; // Default fallback
 }
 
 function mapNCOExisting(csvValue: string): 'NCO' | 'Existing' | 'Takeover' {
@@ -50,10 +50,10 @@ function mapNCOExisting(csvValue: string): 'NCO' | 'Existing' | 'Takeover' {
 
 function mapDealType(csvDealType: string): DealType {
   const dealType = csvDealType.trim();
-  if (dealType === 'MCA' || dealType === 'REVENUE SHARE' || dealType === 'PROFIT SHARE (SOP)' || dealType === 'CONVENTIONAL') {
+  if (dealType === 'Direct' || dealType === 'Sublease' || dealType === 'Coworking') {
     return dealType as DealType;
   }
-  return 'REVENUE SHARE'; // Default fallback
+  return 'Direct'; // Default fallback
 }
 
 // Generate mock weekly history based on current status
